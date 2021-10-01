@@ -1,0 +1,42 @@
+{
+    "MovementSpeed": {
+        "Value": 12.0,
+        "Description": "Regular movement speed of the camera.",
+        "Category": "1 - Speed"
+    },
+    "FastMovementSpeed": {
+        "Value": 64.0,
+        "Description": "Movement speed of the camera when the 'Shift' key is held down.",
+        "Category": "1 - Speed"
+    },
+    "ZoomSpeed": {
+        "Value": 128.0,
+        "Description": "Movement speed of the camera with the scroll wheel.",
+        "Category": "1 - Speed"
+    },
+    "FastZoomSpeed": {
+        "Value": 1024.0,
+        "Description": "Movement speed of the camera with the scroll wheel when the 'Shift' key is held down.",
+        "Category": "1 - Speed"
+    },
+    "TiltSpeed": {
+        "Value": 1.0,
+        "Description": "The speed Z and X keys tilt the camera at.",
+        "Category": "1 - Speed"
+    },
+    "FastTiltSpeed": {
+        "Value": 4.0,
+        "Description": "The speed Z and X keys tilt the camera at when the 'Shift' key is held down.",
+        "Category": "1 - Speed"
+    },
+    "FreeLookSensitivity": {
+        "Value": 128.0,
+        "Description": "Mouse sensitivity for free look.",
+        "Category": "2 - Other"
+    },
+    "HideHUD": {
+        "Value": true,
+        "Description": "Whether if the HUD should be hidden or not during the FreeCam mode.",
+        "Category": "2 - Other"
+    }
+}
