@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
-using BananaModManager.Loader;
 using Flash2;
+using UnhollowerRuntimeLib;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -57,7 +56,7 @@ namespace FreeCam
         ///     When the mod is loaded at the very start of the game.
         /// </summary>
         /// <param name="settings">Settings for the mod.</param>
-        public static void OnModLoad(Dictionary<string, object> settings)
+        public static List<Type> OnModLoad(Dictionary<string, object> settings)
         {
             // Load the settings
 
@@ -70,6 +69,8 @@ namespace FreeCam
 
             FreeLookSensitivity = (float) settings["FreeLookSensitivity"];
             HideHUD = (bool)settings["HideHUD"];
+
+            return new List<Type> { typeof(FreeCamController) };
         }
 
         /// <summary>
@@ -90,7 +91,8 @@ namespace FreeCam
                 {
                     // Disable it and put our own controller in place
                     _cameraController.enabled = false;
-                    _freeCam = _cameraController.gameObject.AddComponent<FreeCamController>();
+
+                    _freeCam = new FreeCamController(_cameraController.gameObject.AddComponent(Il2CppType.Of<FreeCamController>()).Pointer);
                 }
 
                 // Stop everything

@@ -3,7 +3,7 @@
   "Id": "bm.mors.freecam",
   "DLLFile": "FreeCam.dll",
   "Description": "A mod that allows you to freely manipulate the in-game camera using the keyboard.",
-  "Version": "0.9.0",
+  "Version": "0.9.1",
   "Date": "21/09/2021",
   "Author": "Mors",
   "AuthorURL": "http://mors-games.com/",

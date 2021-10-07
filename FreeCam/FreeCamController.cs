@@ -1,4 +1,5 @@
-﻿using Flash2;
+﻿using System;
+using Flash2;
 using Framework.UI;
 using UnityEngine;
 
@@ -6,13 +7,13 @@ namespace FreeCam
 {
     internal class FreeCamController : MonoBehaviour
     {
-        private MouseCursorManager _cursorManager;
+        public FreeCamController(IntPtr value) : base(value) { }
+
         private bool _looking;
         private float _monkeyDistance = 3f;
 
-        private bool _originalHUDVisibility;
-
         private Player _player;
+        private MouseCursorManager _cursorManager;
 
         private void Awake()
         {
@@ -21,11 +22,7 @@ namespace FreeCam
 
             // Hide the HUD
             if (Main.HideHUD)
-            {
-                // In case the HUD was not visible before don't show it again by accident later on
-                _originalHUDVisibility = UIManager.displayHUD;
-                UIManager.displayHUD = false;
-            }
+                MainGameUI.Hud.Deactivate();
 
             // Hide the cursor
             _cursorManager = FindObjectOfType<MouseCursorManager>();
@@ -119,9 +116,14 @@ namespace FreeCam
             Cursor.lockState = CursorLockMode.None;
 
             // Show the UI elements
-            UIManager.displayHUD = _originalHUDVisibility;
-            if (_cursorManager != null)
-                _cursorManager.CursorUI.visible = true;
+
+            if (Main.HideHUD)
+            {
+                MainGameUI.Hud.Activate(MainGameUI.eBananaCounterKind.Bonus, false);
+                MainGameUI.s_Instance.m_IsReady = true;
+                if (_cursorManager != null)
+                    _cursorManager.CursorUI.visible = true;
+            }
 
             // Play the sound
             Sound.PlayOneShot(sound_id.cue.se_com_cancel);
