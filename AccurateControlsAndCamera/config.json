@@ -1,0 +1,17 @@
+{
+  "AccurateControls": {
+    "Value": true,
+    "Description": "Tries to recreate the controls and the physics of Super Monkey Ball 2 as closely as possible.",
+    "Category": ""
+  },
+  "AccurateCamera": {
+    "Value": true,
+    "Description": "Changes the way the camera works to make it feel closer to how it felt in the classic games.",
+    "Category": ""
+  },
+  "StageTiltTemp": {
+    "Value": 0.95,
+    "Description": "for testing.",
+    "Category": "testing"
+  }
+}

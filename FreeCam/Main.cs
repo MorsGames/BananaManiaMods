@@ -56,6 +56,7 @@ namespace FreeCam
         ///     When the mod is loaded at the very start of the game.
         /// </summary>
         /// <param name="settings">Settings for the mod.</param>
+        /// <returns>A list of types that inherit types from Unity and the base game.</returns>
         public static List<Type> OnModLoad(Dictionary<string, object> settings)
         {
             // Load the settings

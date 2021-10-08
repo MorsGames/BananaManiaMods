@@ -1,0 +1,11 @@
+{
+  "Title": "Accurate Controls and Camera",
+  "Id": "bm.mors.accuratecontrolsandcamera",
+  "DLLFile": "AccurateControlsAndCamera.dll",
+  "Description": "A mod that does shit.",
+  "Version": "0.9.2",
+  "Date": "08/10/2021",
+  "Author": "Twilight, Mors",
+  "AuthorURL": "",
+  "UpdateServer": ""
+}
