@@ -1,0 +1,67 @@
+{
+  "BaseFOV": {
+    "Value": -1.0,
+    "Description": "Field of view of the camera. -1 sets it to default.",
+    "Category": "1 - General"
+  },
+  "LightingFix": {
+    "Value": true,
+    "Description": "Makes it so that the light direction doesn't rotate with the stage, which can look especially weird on certain backgrounds. This setting, while making the lighting more accurate in general, could potentially make the movement of shadows a bit distracting for some people.",
+    "Category": "1 - General"
+  },
+  "PostProcessAmount": {
+    "Value": 1.0,
+    "Description": "How strong the post-processing effects should be. 0 means none, 1 means full.",
+    "Category": "2 - Post Process"
+  },
+  "AntiAliasingMode": {
+    "Value": -1.0,
+    "Description": "Changes the method used for anti aliasing. -1 is default (None or FXAA depending on your settings), 0 is none, 1 is FXAA, 2 is SMAA, 3 is TAA.",
+    "Category": "2 - Post Process"
+  },
+  "TweakColors": {
+    "Value": true,
+    "Description": "Makes the game a bit less saturated.",
+    "Category": "2 - Post Process"
+  },
+  "DisableDOF": {
+    "Value": false,
+    "Description": "Disables the depth of field effect.",
+    "Category": "2 - Post Process"
+  },
+  "DisableBloom": {
+    "Value": false,
+    "Description": "Disables the bloom effect.",
+    "Category": "2 - Post Process"
+  },
+  "DisableColorGrading": {
+    "Value": false,
+    "Description": "Disables color grading, making the final image much less vibrant.",
+    "Category": "2 - Post Process"
+  },
+  "DisableAmbientOcclusion": {
+    "Value": false,
+    "Description": "Disables the ambient occlusion effect.",
+    "Category": "2 - Post Process"
+  },
+  "DisableChromaticAberration": {
+    "Value": false,
+    "Description": "Disables the chromatic aberration effect.",
+    "Category": "2 - Post Process"
+  },
+  "DisableVignette": {
+    "Value": false,
+    "Description": "Disables the vignette effect.",
+    "Category": "2 - Post Process"
+  },
+  "HUDScale": {
+    "Value": 1.0,
+    "Description": "Scale of the HUD, as a multiplier.",
+    "Category": "3 - HUD"
+  },
+  "HideHUD": {
+    "Value": false,
+    "Description": "Whether if the HUD should be hidden during gameplay or not.",
+    "Category": "3 - HUD"
+  }
+}

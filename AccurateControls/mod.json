@@ -1,0 +1,11 @@
+{
+  "Title": "Accurate Controls",
+  "Id": "bm.mors.accuratecontrols",
+  "DLLFile": "AccurateControls.dll",
+  "Description": "A mod that does various tweaks to the game to get it feel closer to the original Super Monkey Ball games.",
+  "Version": "0.9.2",
+  "Date": "10/10/2021",
+  "Author": "Twilight, Mors",
+  "AuthorURL": "http://mors-games.com/",
+  "UpdateServer": ""
+}

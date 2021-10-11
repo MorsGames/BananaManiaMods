@@ -1,14 +1,15 @@
 ﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("FreeCam")]
-[assembly: AssemblyDescription("FreeCam mod for SMBBM.")]
+[assembly: AssemblyTitle("Accurate Controls")]
+[assembly: AssemblyDescription("Accurate Controls mod for SMBBM.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Mors")]
-[assembly: AssemblyProduct("FreeCam")]
+[assembly: AssemblyProduct("Accurate Controls")]
 [assembly: AssemblyCopyright("Copyright © Mors 2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -19,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("8d456194-8dc5-4c4b-a9ce-aef50af59a68")]
+[assembly: Guid("69c53411-b17d-46de-9397-1f2bd9f3b067")]
 
 // Version information for an assembly consists of the following four values:
 //

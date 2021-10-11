@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeCam", "FreeCam\FreeCam.csproj", "{8D456194-8DC5-4C4B-A9CE-AEF50AF59A68}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccurateControlsAndCamera", "AccurateControlsAndCamera\AccurateControlsAndCamera.csproj", "{69C53411-B17D-46DE-9397-1F2BD9F3B067}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccurateControls", "AccurateControls\AccurateControls.csproj", "{69C53411-B17D-46DE-9397-1F2BD9F3B067}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphicalTweaks", "GraphicalTweaks\GraphicalTweaks.csproj", "{DC4F207B-7F8B-4615-BF91-C8B9F774A4C9}"
 EndProject

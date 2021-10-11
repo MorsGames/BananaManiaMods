@@ -5,10 +5,12 @@ using UnityEngine;
 using static Flash2.GameParam;
 using Object = UnityEngine.Object;
 
-namespace AccurateControlsAndCamera
+namespace AccurateControls
 {
     public static class Main
     {
+        private static Quaternion _visualStageTilt = Quaternion.identity;
+
         /// <summary>
         ///     Tries to recreate the controls and the physics of Super Monkey Ball 2 as closely as possible.
         /// </summary>
@@ -19,8 +21,10 @@ namespace AccurateControlsAndCamera
         /// </summary>
         public static bool AccurateCamera { get; set; } = true;
 
-
-        public static float StageTiltTemp { get; set; } = 0.95f;
+        /// <summary>
+        ///     Prevents you from rotating the camera while moving.
+        /// </summary>
+        public static bool DisableCameraControlsWhileMoving { get; set; } = false;
 
         /// <summary>
         ///     When the mod is loaded at the very start of the game.
@@ -29,13 +33,16 @@ namespace AccurateControlsAndCamera
         public static void OnModLoad(Dictionary<string, object> settings)
         {
             AccurateControls = (bool) settings["AccurateControls"];
-            AccurateCamera = (bool)settings["AccurateCamera"];
-
-            StageTiltTemp = (float)settings["StageTiltTemp"];
+            AccurateCamera = (bool)settings["AccurateCamera"]; 
+            DisableCameraControlsWhileMoving = (bool)settings["DisableCameraControlsWhileMoving"];
         }
 
+        /// <summary>
+        ///     When the mod starts its shenanigans.
+        /// </summary>
         public static void OnModStart()
         {
+            // New values for the physics.
             if (AccurateControls)
             {
                 physicsParam.gravity = 0.00981f;
@@ -44,6 +51,7 @@ namespace AccurateControlsAndCamera
                 physicsParam.gravityXZDirectionalMultiplier = 0f;
             }
 
+            // New values for the camera
             if (AccurateCamera)
             {
                 mainGameParam.cameraParam.cameraBackChaseScaleMinus = 64f;
@@ -54,7 +62,7 @@ namespace AccurateControlsAndCamera
                 mainGameParam.cameraParam.cameraMinBallSpeedForMoveRate = -1f;
                 for (var i = 0; i < mainGameParam.cameraParam.cameraRotYPadLRate.Count; i++)
                 {
-                    mainGameParam.cameraParam.cameraRotYPadLRate[i] = 0;
+                    mainGameParam.cameraParam.cameraRotYPadLRate[i] = 0f;
                 }
 
                 mainGameParam.cameraParam.cameraRotYSpeedBase = 6f;
@@ -69,16 +77,34 @@ namespace AccurateControlsAndCamera
         /// </summary>
         public static void OnModLateUpdate()
         {
-            if (AccurateControls)
-            {
-                var gravityController = Object.FindObjectOfType<GravityController>();
-                if (gravityController != null)
+            // Disable camera rotation based on speed
+            if (DisableCameraControlsWhileMoving) {
+                var player = Object.FindObjectOfType<Player>();
+                if (player != null)
                 {
-                    gravityController.m_Rotation =
-                        Quaternion.Slerp(Quaternion.identity, gravityController.m_Rotation, StageTiltTemp);
-                    gravityController.m_LerpRatioMax = 1f;
-                    gravityController.m_LerpRatioMin = 0.14f;
+                    mainGameParam.cameraParam.enableControl = player.velocity <= 12f;
                 }
+            }
+
+            // Only run the following code if the controls are being changed
+            if (!AccurateControls) return;
+
+            // Let's use our custom method for visual stage tilt
+            var gravityController = Object.FindObjectOfType<GravityController>();
+            if (gravityController != null)
+            {
+                var tempTilt = gravityController.m_RotationGravity;
+                tempTilt =
+                    Quaternion.Slerp(tempTilt, Quaternion.identity, 0.35f);
+                _visualStageTilt =
+                    Quaternion.Slerp(_visualStageTilt, tempTilt, 11.0f * Time.deltaTime);
+                gravityController.m_Rotation = _visualStageTilt;
+                gravityController.m_LerpRatioMax = 1f;
+                gravityController.m_LerpRatioMin = 0.0f;
+            }
+            else
+            {
+                _visualStageTilt = Quaternion.identity;
             }
         }
     }

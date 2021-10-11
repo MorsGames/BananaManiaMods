@@ -14,6 +14,8 @@ namespace FreeCam
 
         private Player _player;
         private MouseCursorManager _cursorManager;
+        private MainGameUI.eBananaCounterKind _bananaKind;
+        private bool _isReplay;
 
         private void Awake()
         {
@@ -22,7 +24,21 @@ namespace FreeCam
 
             // Hide the HUD
             if (Main.HideHUD)
+            {
+                var mainGameStage = FindObjectOfType<MainGameStage>();
+                if (mainGameStage)
+                {
+                    _bananaKind = mainGameStage.m_BananaCounterKind;
+                    _isReplay = mainGameStage.m_IsFullReplay;
+                }
+                else
+                {
+                    _bananaKind = MainGameUI.eBananaCounterKind.Nomal;
+                    _isReplay = false;
+                }
+
                 MainGameUI.Hud.Deactivate();
+            }
 
             // Hide the cursor
             _cursorManager = FindObjectOfType<MouseCursorManager>();
@@ -119,7 +135,7 @@ namespace FreeCam
 
             if (Main.HideHUD)
             {
-                MainGameUI.Hud.Activate(MainGameUI.eBananaCounterKind.Bonus, false);
+                MainGameUI.Hud.Activate(_bananaKind, _isReplay);
                 MainGameUI.s_Instance.m_IsReady = true;
                 if (_cursorManager != null)
                     _cursorManager.CursorUI.visible = true;

@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{69C53411-B17D-46DE-9397-1F2BD9F3B067}</ProjectGuid>
+    <ProjectGuid>{DC4F207B-7F8B-4615-BF91-C8B9F774A4C9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AccurateControlsAndCamera</RootNamespace>
-    <AssemblyName>AccurateControlsAndCamera</AssemblyName>
+    <RootNamespace>GraphicalTweaks</RootNamespace>
+    <AssemblyName>GraphicalTweaks</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -23,40 +23,54 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
+    <DebugType>None</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\mods\GraphicalTweaks\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x64</PlatformTarget>
+    <AllowedReferenceRelatedFileExtensions>
+      .dummy
+    </AllowedReferenceRelatedFileExtensions>
+    <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
       <HintPath>E:\Steam\steamapps\common\smbbm\managed\Assembly-CSharp.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Il2CppMono.Security">
       <HintPath>E:\Steam\steamapps\common\smbbm\managed\Il2CppMono.Security.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Il2Cppmscorlib">
       <HintPath>E:\Steam\steamapps\common\smbbm\managed\Il2Cppmscorlib.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Il2CppSystem">
       <HintPath>E:\Steam\steamapps\common\smbbm\managed\Il2CppSystem.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Il2CppSystem.Configuration">
       <HintPath>E:\Steam\steamapps\common\smbbm\managed\Il2CppSystem.Configuration.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Il2CppSystem.Core">
       <HintPath>E:\Steam\steamapps\common\smbbm\managed\Il2CppSystem.Core.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Il2CppSystem.Runtime.Serialization">
       <HintPath>E:\Steam\steamapps\common\smbbm\managed\Il2CppSystem.Runtime.Serialization.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Il2CppSystem.Xml">
       <HintPath>E:\Steam\steamapps\common\smbbm\managed\Il2CppSystem.Xml.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Il2CppSystem.Xml.Linq">
       <HintPath>E:\Steam\steamapps\common\smbbm\managed\Il2CppSystem.Xml.Linq.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -66,15 +80,30 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="UnhollowerBaseLib, Version=0.4.15.4, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="UnhollowerBaseLib">
       <HintPath>E:\Steam\steamapps\common\smbbm\managed\UnhollowerBaseLib.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnhollowerRuntimeLib">
+      <HintPath>E:\Steam\steamapps\common\smbbm\managed\UnhollowerRuntimeLib.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.Postprocessing.Runtime">
+      <HintPath>E:\Steam\steamapps\common\smbbm\managed\Unity.Postprocessing.Runtime.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine">
       <HintPath>E:\Steam\steamapps\common\smbbm\managed\UnityEngine.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>E:\Steam\steamapps\common\smbbm\managed\UnityEngine.CoreModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.InputLegacyModule, Version=3.7.1.6, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Steam\steamapps\common\smbbm\managed\UnityEngine.InputLegacyModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -90,4 +119,19 @@
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="PostBuildMacros">
+    <GetAssemblyIdentity AssemblyFiles="$(TargetPath)">
+      <Output TaskParameter="Assemblies" ItemName="Targets" />
+    </GetAssemblyIdentity>
+    <ItemGroup>
+      <VersionNumber Include="@(Targets->'%(Version)')" />
+    </ItemGroup>
+  </Target>
+  <PropertyGroup>
+    <PostBuildEventDependsOn>
+      $(PostBuildEventDependsOn);
+      PostBuildMacros;
+    </PostBuildEventDependsOn>
+    <PostBuildEvent>powershell "Compress-Archive $(TargetDir) ..\GraphicalTweaks_v@(VersionNumber).zip"</PostBuildEvent>
+  </PropertyGroup>
 </Project>
