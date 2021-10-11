@@ -135,6 +135,9 @@ namespace GraphicalTweaks
             var cameraController = Object.FindObjectOfType<CameraController>();
             if (cameraController != null)
             {
+                // Set the field of view
+                cameraController.SetFieldOfView(BaseFOV);
+
                 if (_canModifyPostProcess)
                 {
                     // Fix the light source places in
@@ -148,9 +151,10 @@ namespace GraphicalTweaks
                         }
                     }
 
-                    // Apply the settings
+                    // Find the Post Process Volume
                     var postProcessVolume = cameraController.m_PostProcessVolume;
 
+                    // Apply the settings
                     if (PostProcessAmount != 1f)
                         postProcessVolume.weight = PostProcessAmount;
 
