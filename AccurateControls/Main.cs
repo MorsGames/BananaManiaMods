@@ -22,6 +22,11 @@ namespace AccurateControls
         public static bool AccurateCamera { get; set; } = true;
 
         /// <summary>
+        ///     Makes the visual stage tilt amount match the classic games. Does not affect the gameplay.
+        /// </summary>
+        public static bool AccurateStageTilt { get; set; } = true;
+
+        /// <summary>
         ///     Prevents you from rotating the camera while moving.
         /// </summary>
         public static bool DisableCameraControlsWhileMoving { get; set; } = false;
@@ -33,7 +38,8 @@ namespace AccurateControls
         public static void OnModLoad(Dictionary<string, object> settings)
         {
             AccurateControls = (bool) settings["AccurateControls"];
-            AccurateCamera = (bool)settings["AccurateCamera"]; 
+            AccurateCamera = (bool)settings["AccurateCamera"];
+            AccurateStageTilt = (bool)settings["AccurateStageTilt"];
             DisableCameraControlsWhileMoving = (bool)settings["DisableCameraControlsWhileMoving"];
         }
 
@@ -70,6 +76,8 @@ namespace AccurateControls
                 mainGameParam.cameraParam.followMonkeyScale = 0f;
                 mainGameParam.cameraParam.limitXAngL = -70f;
             }
+
+            Bumper.HIT_SCALE_FREQ *= 8;
         }
 
         /// <summary>
@@ -87,7 +95,7 @@ namespace AccurateControls
             }
 
             // Only run the following code if the controls are being changed
-            if (!AccurateControls) return;
+            if (!AccurateStageTilt) return;
 
             // Let's use our custom method for visual stage tilt
             var gravityController = Object.FindObjectOfType<GravityController>();

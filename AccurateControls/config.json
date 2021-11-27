@@ -9,6 +9,11 @@
     "Description": "Changes the way the camera works to make it feel closer to how it felt in the classic games.",
     "Category": "1 - Accuracy"
   },
+  "AccurateStageTilt": {
+    "Value": true,
+    "Description": "Makes the visual stage tilt amount match the classic games. Does not affect the gameplay.",
+    "Category": "1 - Accuracy"
+  },
   "DisableCameraControlsWhileMoving": {
     "Value": false,
     "Description": "Prevents you from rotating the camera while moving.",

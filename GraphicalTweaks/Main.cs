@@ -136,7 +136,8 @@ namespace GraphicalTweaks
             if (cameraController != null)
             {
                 // Set the field of view
-                cameraController.SetFieldOfView(BaseFOV);
+                if (BaseFOV > 0)
+                    cameraController.SetFieldOfView(BaseFOV);
 
                 if (_canModifyPostProcess)
                 {

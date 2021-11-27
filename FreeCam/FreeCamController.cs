@@ -38,6 +38,9 @@ namespace FreeCam
                 }
 
                 MainGameUI.Hud.Deactivate();
+
+                if (_player != null)
+                    _player.HighSpeedEffectCameraOffset = 0f;
             }
 
             // Hide the cursor
