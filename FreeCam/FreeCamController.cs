@@ -58,6 +58,7 @@ namespace FreeCam
             var fastMode = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
             var movementSpeed = fastMode ? Main.FastMovementSpeed : Main.MovementSpeed;
             var tiltSpeed = fastMode ? Main.FastTiltSpeed : Main.TiltSpeed;
+            var rotationSpeed = fastMode ? Main.FastRotationSpeed : Main.RotationSpeed;
             var zoomSpeed = fastMode ? Main.FastZoomSpeed : Main.ZoomSpeed;
 
             // Movement
@@ -76,26 +77,37 @@ namespace FreeCam
             if (Input.GetKey(KeyCode.E))
                 transform.position -= transform.up * movementSpeed * Time.unscaledDeltaTime;
 
-            if (Input.GetKey(KeyCode.R))
+            if (Input.GetKey(KeyCode.U))
                 transform.position += Vector3.up * movementSpeed * Time.unscaledDeltaTime;
-            if (Input.GetKey(KeyCode.F))
+            if (Input.GetKey(KeyCode.J))
                 transform.position -= Vector3.up * movementSpeed * Time.unscaledDeltaTime;
 
             // Tilting
-            if (Input.GetKey(KeyCode.Z))
+            if (Input.GetKey(KeyCode.R))
                 transform.localEulerAngles += new Vector3(0f, 0f, tiltSpeed);
-            if (Input.GetKey(KeyCode.X))
+            if (Input.GetKey(KeyCode.Y))
                 transform.localEulerAngles -= new Vector3(0f, 0f, tiltSpeed);
+
+            // Rotating with keyboard
+            if (Input.GetKey(KeyCode.T))
+                transform.localEulerAngles -= new Vector3(rotationSpeed, 0f, 0f);
+            if (Input.GetKey(KeyCode.G))
+                transform.localEulerAngles += new Vector3(rotationSpeed, 0f, 0f);
+            if (Input.GetKey(KeyCode.F))
+                transform.localEulerAngles -= new Vector3(0f, rotationSpeed, 0f);
+            if (Input.GetKey(KeyCode.H))
+                transform.localEulerAngles += new Vector3(0f, rotationSpeed, 0f);
 
             // Zooming with the scroll wheel
             var mouseAxis = Input.GetAxis("Mouse ScrollWheel");
 
-            if (Input.GetKey(KeyCode.Space) && _player != null)
+            if (Main.FreezeGameplay && Input.GetKey(KeyCode.Space) && _player != null)
             {
                 if (mouseAxis != 0)
                     _monkeyDistance += mouseAxis * zoomSpeed * Time.unscaledDeltaTime;
 
-                _player.transform.position = transform.position + transform.rotation * new Vector3(0f, 0f, _monkeyDistance);
+                _player.transform.position =
+                    transform.position + transform.rotation * new Vector3(0f, 0f, _monkeyDistance);
             }
             else if (mouseAxis != 0)
             {
@@ -125,6 +137,18 @@ namespace FreeCam
 
                 // Unlock the cursor
                 Cursor.lockState = CursorLockMode.None;
+            }
+        }
+        private void LateUpdate()
+        {
+            // Disable the visual stage tilt
+            if (Main.DisableVisualStageTilt)
+            {
+                var gravityController = FindObjectOfType<GravityController>();
+                if (gravityController != null)
+                {
+                    gravityController.m_Rotation = Quaternion.identity;
+                }
             }
         }
 

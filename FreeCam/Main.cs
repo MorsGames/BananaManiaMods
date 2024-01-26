@@ -33,14 +33,24 @@ namespace FreeCam
         public static float FastZoomSpeed { get; set; } = 1024f;
 
         /// <summary>
-        ///     The speed Z and X keys tilt the camera at.
+        ///     The speed T, F, G, and H keys rotate the camera at.
+        /// </summary>
+        public static float RotationSpeed { get; set; } = 1f;
+
+        /// <summary>
+        ///     The speed T, F, G, and H keys rotate the camera at when the 'Shift' key is held down.
+        /// </summary>
+        public static float FastRotationSpeed { get; set; } = 2f;
+
+        /// <summary>
+        ///     The speed R and Y keys tilt the camera at.
         /// </summary>
         public static float TiltSpeed { get; set; } = 1f;
 
         /// <summary>
-        ///     The speed Z and X keys tilt the camera at when the 'Shift' key is held down.
+        ///     The speed R and Y keys tilt the camera at when the 'Shift' key is held down.
         /// </summary>
-        public static float FastTiltSpeed { get; set; } = 4f;
+        public static float FastTiltSpeed { get; set; } = 2f;
 
         /// <summary>
         ///     Mouse sensitivity for free look.
@@ -48,9 +58,25 @@ namespace FreeCam
         public static float FreeLookSensitivity { get; set; } = 128f;
 
         /// <summary>
-        ///     Whether if the HUD should be hidden or not during the FreeCam mode.
+        ///     Hides the HUD while the FreeCam mode is active.
         /// </summary>
         public static bool HideHUD { get; set; } = true;
+
+        /// <summary>
+        ///     Stops the game while the FreeCam mode is active.
+        /// </summary>
+        public static bool FreezeGameplay { get; set; } = true;
+
+        /// <summary>
+        ///    Disables the controls while the FreeCam mode is active and the gameplay is not frozen.
+        /// </summary>
+        public static bool DisableControls { get; set; } = false;
+
+        /// <summary>
+        ///     Disables the stage tilt while the FreeCam mode is active.
+        /// </summary>
+        public static bool DisableVisualStageTilt { get; set; } = true;
+
 
         /// <summary>
         ///     When the mod is loaded at the very start of the game.
@@ -65,11 +91,16 @@ namespace FreeCam
             FastMovementSpeed = (float) settings["FastMovementSpeed"];
             ZoomSpeed = (float) settings["ZoomSpeed"];
             FastZoomSpeed = (float) settings["FastZoomSpeed"];
-            TiltSpeed = (float) settings["TiltSpeed"];
-            FastTiltSpeed = (float) settings["FastTiltSpeed"];
+            TiltSpeed = (float)settings["TiltSpeed"];
+            FastTiltSpeed = (float)settings["FastTiltSpeed"];
+            RotationSpeed = (float)settings["RotationSpeed"];
+            FastRotationSpeed = (float)settings["FastRotationSpeed"];
 
             FreeLookSensitivity = (float) settings["FreeLookSensitivity"];
             HideHUD = (bool)settings["HideHUD"];
+            FreezeGameplay = (bool)settings["FreezeGameplay"];
+            DisableControls = (bool)settings["DisableControls"];
+            DisableVisualStageTilt = (bool)settings["DisableVisualStageTilt"];
 
             return new List<Type> { typeof(FreeCamController) };
         }
@@ -79,39 +110,73 @@ namespace FreeCam
         /// </summary>
         public static void OnModUpdate()
         {
-            // Only run the following code when the player exists within the scene and the 'Tab' key is pressed
+            // If the player doesn't exist
             var player = Object.FindObjectOfType<Player>();
-            if (player == null || !Input.GetKeyDown(KeyCode.Tab)) return;
+            if (player == null)
+            {
+                // If the FreeCam is enabled without the player, disable it
+                _freeCam = null;
+                return;
+            }
 
-            // If the FreeCam is off
-            if (_freeCam == null)
+            // When the key is pressed
+            if (Input.GetKeyDown(KeyCode.Tab))
             {
                 // Get the default camera controller
                 _cameraController = player.GetCameraController();
-                if (_cameraController != null)
-                {
-                    // Disable it and put our own controller in place
-                    _cameraController.enabled = false;
 
-                    _freeCam = new FreeCamController(_cameraController.gameObject.AddComponent(Il2CppType.Of<FreeCamController>()).Pointer);
-                }
+                // Toggle it
+                if (_freeCam == null)
+                    EnableCam();
+                else
+                    DisableCam();
+            }
+        }
 
-                // Stop everything
-                GameManager.SetPause(true);
+        private static void EnableCam()
+        {
+            // If there's an existing camera controller...
+            if (_cameraController != null)
+            {
+                // Disable it and put our own controller in place
+                _cameraController.enabled = false;
+                _freeCam = new FreeCamController(_cameraController.gameObject.AddComponent(Il2CppType.Of<FreeCamController>())
+                    .Pointer);
             }
 
-            // If the FreeCam is on
-            else
+            // Stop everything
+            if (FreezeGameplay)
+                GameManager.SetPause(true);
+            else if (DisableControls)
             {
-                // Enable the original camera controller back
+                var gravityController = Object.FindObjectOfType<GravityController>();
+                if (gravityController != null)
+                {
+                    gravityController.m_IsEnableControl = false;
+                }
+            }
+        }
+
+        private static void DisableCam()
+        {
+            // Enable the original camera controller back
+            if (_cameraController != null)
                 _cameraController.enabled = true;
 
-                // Destroy ours
-                Object.Destroy(_freeCam);
-                _freeCam = null;
+            // Destroy ours
+            Object.Destroy(_freeCam);
+            _freeCam = null;
 
-                // Resume the game
+            // Resume the game
+            if (FreezeGameplay)
                 GameManager.SetPause(false);
+            else if (DisableControls)
+            {
+                var gravityController = Object.FindObjectOfType<GravityController>();
+                if (gravityController != null)
+                {
+                    gravityController.m_IsEnableControl = true;
+                }
             }
         }
     }
