@@ -60,7 +60,7 @@
     "Category": "2 - Other"
   },
   "DisableVisualStageTilt": {
-    "Value": true,
+    "Value": false,
     "Description": "Disables the stage tilt while the FreeCam mode is active. Can be glitchy sometimes!",
     "Category": "2 - Other"
   }
